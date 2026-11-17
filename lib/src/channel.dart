@@ -16,6 +16,19 @@ import 'worker/worker_message.dart';
 import 'worker/worker_request.dart';
 import 'worker/worker_response.dart';
 
+/// Opens a [Channel] to a platform worker. [Worker.start] calls it instead of
+/// [Channel.open] when a [Worker.channelFactory] is set, so a worker can run
+/// somewhere other than an isolate or a Web Worker (for instance, another
+/// process). [entryPoint] is the worker's own entry point; factories that do
+/// not spawn a thread may ignore it. As with [Channel.open], the future must
+/// not complete before the worker is ready to serve requests.
+typedef ChannelFactory = Future<Channel> Function(
+  ExceptionManager exceptionManager,
+  Logger? logger,
+  EntryPoint entryPoint,
+  List startArguments,
+);
+
 /// A [Channel] supports communication from a client to a platform worker. It
 /// is used to send a [WorkerRequest] to a platform worker.
 abstract interface class Channel {

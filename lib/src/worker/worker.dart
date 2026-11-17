@@ -31,7 +31,9 @@ abstract class Worker
     implements WorkerService, IWorker, Invoker {
   /// Creates a [Worker] with the specified entrypoint.
   Worker(this._entryPoint,
-      {PlatformThreadHook? threadHook, ExceptionManager? exceptionManager})
+      {PlatformThreadHook? threadHook,
+      ExceptionManager? exceptionManager,
+      this.channelFactory})
       : _threadHook = threadHook,
         exceptionManager = exceptionManager ?? ExceptionManager() {
     _stats = _Stats(this);
@@ -54,6 +56,11 @@ abstract class Worker
   final ExceptionManager exceptionManager;
 
   final PlatformThreadHook? _threadHook;
+
+  /// Opens the [Channel] instead of [Channel.open] when set. It must be set
+  /// before the worker starts; changing it later has no effect on a running
+  /// worker. The thread hook is not called for channels opened this way.
+  ChannelFactory? channelFactory;
 
   /// The [Worker]'s start arguments.
   List? getStartArgs();
@@ -239,13 +246,13 @@ abstract class Worker
       return Future.value(_channel!);
     }
 
-    return _openChannel ??= Channel.open(
-      exceptionManager,
-      channelLogger,
-      _entryPoint,
-      getStartArgs() ?? const [],
-      _threadHook,
-    ).then((channel) {
+    final factory = channelFactory;
+    final startArgs = getStartArgs() ?? const [];
+    return _openChannel ??= (factory != null
+            ? factory(exceptionManager, channelLogger, _entryPoint, startArgs)
+            : Channel.open(exceptionManager, channelLogger, _entryPoint,
+                startArgs, _threadHook))
+        .then((channel) {
       _channel = channel;
       _stats.start();
       return channel;

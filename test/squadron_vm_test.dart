@@ -17,6 +17,7 @@ import '09_cancelation_suite.dart' as cancelation;
 import '10_marshaler_suite.dart' as marshalers;
 import '11_worker_pool_suite.dart' as worker_pool;
 import '12_issues_suite.dart' as issues;
+import '13_channel_factory_suite.dart' as channel_factory;
 
 Future<void> main() => TestContext.run(execute);
 
@@ -33,4 +34,5 @@ void execute(TestContext? tc) {
   marshalers.execute(tc);
   worker_pool.execute(tc);
   issues.execute(tc);
+  channel_factory.execute(tc);
 }

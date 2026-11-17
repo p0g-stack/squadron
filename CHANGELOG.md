@@ -1,3 +1,8 @@
+## Unreleased
+
+- Add `Worker.channelFactory` (and a `channelFactory` constructor parameter) so a worker can open its channel somewhere other than an isolate or a Web Worker, e.g. another process over a socket. Without a factory, `Worker.start()` opens `Channel.open()` as before.
+- Export `SquadronCancelationToken` and `StreamId`, which custom `Channel` implementations need.
+
 ## 7.4.5
 
 - Update built-in package skill for cancellation (`squadron-cancelation`).

@@ -41,10 +41,13 @@ export 'src/squadron_singleton.dart';
 export 'src/stats/perf_counter.dart' hide PerfCounterImpl;
 export 'src/stats/perf_counter_snapshot.dart';
 export 'src/stats/worker_stat.dart' hide WorkerStatImpl;
+export 'src/tokens/_squadron_cancelation_token.dart'
+    hide SquadronCancelationTokenExt;
 export 'src/typedefs.dart';
 export 'src/utils.dart';
 export 'src/worker/worker.dart';
 export 'src/worker/worker_channel.dart';
+export 'src/worker/worker_message.dart' show StreamId;
 export 'src/worker/worker_request.dart' hide CancelationTokenExt;
 export 'src/worker/worker_response.dart';
 export 'src/worker_client.dart';

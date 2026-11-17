@@ -1,3 +1,7 @@
+## Unreleased
+
+- Web: the loader of a Web Assembly worker sets `globalThis.squadronWorkerScriptUrl` to the absolute URL of the worker's `.wasm` file before it loads the Dart runtime. The worker runs from a blob URL, so `self.location` cannot tell it where its own files are.
+
 ## 7.4.5
 
 - Update built-in package skill for cancellation (`squadron-cancelation`).

@@ -59,6 +59,7 @@ class EntryPointUri with Releasable {
 
   static String _wasmLoaderScript(String url) => '''(async function(){
 const workerUri=new URL("${url.replaceAll('"', '\\"')}",self.location.origin).href;
+globalThis.squadronWorkerScriptUrl=workerUri;
 let newRt=false;
 try{
   let d2w_rt; let worker;
